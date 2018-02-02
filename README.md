@@ -27,7 +27,7 @@ setup 1:创建
             GPUImageBufferRefOutput *bufferOutput = [[GPUImageBufferRefOutput alloc]initWithVideoSize:CGSizeMake(width, height)];
             _bufferRefOutput = bufferOutput;
             bufferOutput.delegate = self;
-            
+            //该类 见setup2
             [[[RTCSelectFileter alloc ]init] selectFIleterWithIndx:_index input:cameraRef outputView:_sampleGpuView outputBuffer:bufferOutput];
             
             [cameraRef processMovieFrame:sampleBuffer];
