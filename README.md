@@ -1,5 +1,7 @@
 # GPUImage_buffer
 
+
+setup 1:创建
 ```
         if (capturer) {
          
@@ -32,12 +34,34 @@
             
         }
 ```
-setup 2:RTCSelectFileter
+setup 2:[RTCSelectFileter]()
 ```
 GPUImageBeautifyFilter *beautifyFilter =  [[GPUImageBeautifyFilter alloc]init];
-            [beautifyFilter useNextFrameForImageCapture];
-            [movieInput addTarget:beautifyFilter];
-            [beautifyFilter addTarget:bufferOutput];
-            [beautifyFilter addTarget:imageView];
+[beautifyFilter useNextFrameForImageCapture];
+[movieInput addTarget:beautifyFilter];
+[beautifyFilter addTarget:bufferOutput];
+//上面的自定义输出有点问题 必须的再加上一个输出才能拿到数据GPUImageView
+[beautifyFilter addTarget:imageView];
 ```
+setup 3:关于输出BGRA如果需要,提供一个转yuv文件[DotEnginePixelBuffer]():
+
+```
+  #pragma mark --GPUImageBufferRefOutputDelegate
+-(void)imageBufferRefOutputCompletedWithPixelBufferRef:(CVPixelBufferRef)pixelBufferRef{
+    if(!_toPixelBuffer){
+        DotEnginePixelBuffer *toPixelBuffer = [[DotEnginePixelBuffer alloc]init];
+        _toPixelBuffer = toPixelBuffer;
+    }
+    CVPixelBufferRef convertPixBuffer = [_toPixelBuffer convertPixelBuffer:pixelBufferRef];
+  //接下来 拿去显示吧
+  。。。
+    
+ //这里必须手动释放
+CVPixelBufferRelease(convertPixBuffer);
+}
+
+```
+
+
+
 
