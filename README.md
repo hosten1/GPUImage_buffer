@@ -1,7 +1,6 @@
 # GPUImage_buffer
 
 ```
-/*
         if (capturer) {
          
             CVImageBufferRef bufferRef = CMSampleBufferGetImageBuffer(sampleBuffer);
@@ -32,5 +31,4 @@
             [cameraRef processMovieFrame:sampleBuffer];
             
         }
-             */
 ```
