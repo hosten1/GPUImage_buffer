@@ -34,7 +34,7 @@ setup 1:创建
             
         }
 ```
-setup 2:[RTCSelectFileter]()
+setup 2:[RTCSelectFileter](https://github.com/hosten1/GPUImage_buffer/blob/master/RTCSelectFileter.h)
 ```
 GPUImageBeautifyFilter *beautifyFilter =  [[GPUImageBeautifyFilter alloc]init];
 [beautifyFilter useNextFrameForImageCapture];
@@ -43,7 +43,7 @@ GPUImageBeautifyFilter *beautifyFilter =  [[GPUImageBeautifyFilter alloc]init];
 //上面的自定义输出有点问题 必须的再加上一个输出才能拿到数据GPUImageView
 [beautifyFilter addTarget:imageView];
 ```
-setup 3:关于输出BGRA如果需要,提供一个转yuv文件[DotEnginePixelBuffer]():
+setup 3:关于输出BGRA如果需要,提供一个转yuv文件[DotEnginePixelBuffer](https://github.com/hosten1/GPUImage_buffer/blob/master/DotEnginePixelBuffer.h):
 
 ```
   #pragma mark --GPUImageBufferRefOutputDelegate
