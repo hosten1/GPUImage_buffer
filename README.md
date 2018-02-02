@@ -32,3 +32,12 @@
             
         }
 ```
+setup 2:RTCSelectFileter
+```
+GPUImageBeautifyFilter *beautifyFilter =  [[GPUImageBeautifyFilter alloc]init];
+            [beautifyFilter useNextFrameForImageCapture];
+            [movieInput addTarget:beautifyFilter];
+            [beautifyFilter addTarget:bufferOutput];
+            [beautifyFilter addTarget:imageView];
+```
+
