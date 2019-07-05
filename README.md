@@ -1,5 +1,15 @@
 # GPUImage_buffer
+## 创建显示
 
+```
+  _sampleGpuView = [[GPUImageView alloc]initWithFrame:CGRectMake(remoteView.frame.size.width/2-100,remoteView.frame.size.width/2, 300, 200)];
+        [remoteView.superview addSubview:_sampleGpuView];
+        [remoteView bringSubviewToFront:_sampleGpuView];
+        _sampleGpuView.hidden = YES;
+        _sampleGpuView.fillMode = kGPUImageFillModePreserveAspectRatio;
+        CGAffineTransform transform = CGAffineTransformMakeRotation(90 * M_PI/180.0);
+        [_sampleGpuView setTransform:transform];
+```
 
 setup 1:创建
 ```
