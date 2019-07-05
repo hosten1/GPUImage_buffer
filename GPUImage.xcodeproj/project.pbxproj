@@ -725,6 +725,9 @@
 		C809318922CF3808007303D1 /* DotEnginePixelBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = C809318522CF3808007303D1 /* DotEnginePixelBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C809318B22CF387F007303D1 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C809318A22CF387F007303D1 /* libstdc++.tbd */; };
 		C809318D22CF389B007303D1 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C809318C22CF389B007303D1 /* libc++.tbd */; };
+		C809319522CF40C7007303D1 /* GPUImageBufferRefOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = C879F34720104322006612CC /* GPUImageBufferRefOutput.m */; };
+		C809319622CF40E7007303D1 /* GPUImageVideoCameraRef.m in Sources */ = {isa = PBXBuildFile; fileRef = C82F6F2F200F4F5A00A151A3 /* GPUImageVideoCameraRef.m */; };
+		C809319722CF40E7007303D1 /* GPUImagePicture+TextureSubimage.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FFC80A1936408F00994258 /* GPUImagePicture+TextureSubimage.m */; };
 		C82F6F31200F4F5A00A151A3 /* GPUImageVideoCameraRef.m in Sources */ = {isa = PBXBuildFile; fileRef = C82F6F2F200F4F5A00A151A3 /* GPUImageVideoCameraRef.m */; };
 		C82F6F32200F4F5A00A151A3 /* GPUImageVideoCameraRef.h in Headers */ = {isa = PBXBuildFile; fileRef = C82F6F30200F4F5A00A151A3 /* GPUImageVideoCameraRef.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C8736A7C2011E27100193FF9 /* GPUImageBeautifyFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = C8736A7A2011E27000193FF9 /* GPUImageBeautifyFilter.m */; };
@@ -2083,6 +2086,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C809319622CF40E7007303D1 /* GPUImageVideoCameraRef.m in Sources */,
+				C809319722CF40E7007303D1 /* GPUImagePicture+TextureSubimage.m in Sources */,
+				C809319522CF40C7007303D1 /* GPUImageBufferRefOutput.m in Sources */,
 				BC57608019441E610096FFA5 /* GPUImageContext.m in Sources */,
 				BCD81F2D19440604007133DB /* GLProgram.m in Sources */,
 				BCD81F2F19440604007133DB /* GPUImageFramebuffer.m in Sources */,
