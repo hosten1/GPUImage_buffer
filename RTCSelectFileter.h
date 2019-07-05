@@ -7,9 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-@class GPUImageView;
-@class GPUImageMovie;
-@class GPUImageBufferRefOutput;
+#import "GPUImage.h"
+
 @interface RTCSelectFileter : NSObject
 - (void)selectFIleterWithIndx:(NSInteger)index input:(GPUImageMovie*) movieInput outputView:(GPUImageView*)imageView outputBuffer:(GPUImageBufferRefOutput*)bufferOutput;
 @end

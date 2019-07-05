@@ -7,7 +7,7 @@
 //
 
 #import "RTCSelectFileter.h"
-#import "GPUImage.h"
+
 @implementation RTCSelectFileter
 -(void)selectFIleterWithIndx:(NSInteger)index input:(GPUImageMovie *)movieInput outputView:(GPUImageView *)imageView outputBuffer:(GPUImageBufferRefOutput *)bufferOutput{
     switch (index) {

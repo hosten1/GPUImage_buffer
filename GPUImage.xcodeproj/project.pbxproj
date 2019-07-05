@@ -728,6 +728,7 @@
 		C809319522CF40C7007303D1 /* GPUImageBufferRefOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = C879F34720104322006612CC /* GPUImageBufferRefOutput.m */; };
 		C809319622CF40E7007303D1 /* GPUImageVideoCameraRef.m in Sources */ = {isa = PBXBuildFile; fileRef = C82F6F2F200F4F5A00A151A3 /* GPUImageVideoCameraRef.m */; };
 		C809319722CF40E7007303D1 /* GPUImagePicture+TextureSubimage.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FFC80A1936408F00994258 /* GPUImagePicture+TextureSubimage.m */; };
+		C809319822CF4292007303D1 /* GPUImageBeautifyFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = C8736A7A2011E27000193FF9 /* GPUImageBeautifyFilter.m */; };
 		C82F6F31200F4F5A00A151A3 /* GPUImageVideoCameraRef.m in Sources */ = {isa = PBXBuildFile; fileRef = C82F6F2F200F4F5A00A151A3 /* GPUImageVideoCameraRef.m */; };
 		C82F6F32200F4F5A00A151A3 /* GPUImageVideoCameraRef.h in Headers */ = {isa = PBXBuildFile; fileRef = C82F6F30200F4F5A00A151A3 /* GPUImageVideoCameraRef.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C8736A7C2011E27100193FF9 /* GPUImageBeautifyFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = C8736A7A2011E27000193FF9 /* GPUImageBeautifyFilter.m */; };
@@ -2086,6 +2087,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C809319822CF4292007303D1 /* GPUImageBeautifyFilter.m in Sources */,
 				C809319622CF40E7007303D1 /* GPUImageVideoCameraRef.m in Sources */,
 				C809319722CF40E7007303D1 /* GPUImagePicture+TextureSubimage.m in Sources */,
 				C809319522CF40C7007303D1 /* GPUImageBufferRefOutput.m in Sources */,
