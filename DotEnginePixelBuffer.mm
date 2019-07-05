@@ -7,8 +7,8 @@
 //
 
 #import "DotEnginePixelBuffer.h"
-#import "include/libyuv.h"
-
+#import <CoreVideo/CoreVideo.h>
+#import <libyuv/libyuv.h>
 @implementation DotEnginePixelBuffer
 
 
@@ -22,8 +22,8 @@
          
          CVPixelBufferLockBaseAddress(pixelBuffer, 0);
          
-         int width = CVPixelBufferGetWidth(pixelBuffer);
-         int height = CVPixelBufferGetHeight(pixelBuffer);
+         int width = (int)CVPixelBufferGetWidth(pixelBuffer);
+         int height = (int)CVPixelBufferGetHeight(pixelBuffer);
          
          int half_width = (width + 1) / 2;
          int half_height = (height + 1) / 2;
@@ -32,14 +32,14 @@
          const int uv_size = half_width * half_height * 2 ;
          const size_t total_size = y_size + uv_size;
          
-         uint8_t* outputBytes = calloc(1,total_size);
+         uint8_t* outputBytes = (uint8_t*)calloc(1,total_size);
          
-         uint8_t* interMiediateBytes = calloc(1,total_size);
+         uint8_t* interMiediateBytes = (uint8_t*)calloc(1,total_size);
          
-         uint8_t *srcAddress = CVPixelBufferGetBaseAddress(pixelBuffer);
+         uint8_t *srcAddress = (uint8_t*)CVPixelBufferGetBaseAddress(pixelBuffer);
          
          
-         ARGBToI420(srcAddress,
+         libyuv::ARGBToI420(srcAddress,
                     width * 4,
                     interMiediateBytes,
                     half_width * 2,
@@ -49,7 +49,7 @@
                     half_width,
                     width, height);
          
-         I420ToNV12(interMiediateBytes,
+          libyuv::I420ToNV12(interMiediateBytes,
                     half_width * 2,
                     interMiediateBytes + y_size,
                     half_width,
@@ -73,13 +73,13 @@
          
          CVPixelBufferLockBaseAddress(pixel_buffer, 0);
          
-         uint8_t * plan1 = CVPixelBufferGetBaseAddressOfPlane(pixel_buffer,0);
+         void * plan1 = CVPixelBufferGetBaseAddressOfPlane(pixel_buffer,0);
          size_t  plan1_height = CVPixelBufferGetHeightOfPlane(pixel_buffer,0);
          size_t  plan1_sizePerRow = CVPixelBufferGetBytesPerRowOfPlane(pixel_buffer,0);
          
          memcpy(plan1, outputBytes, plan1_height * plan1_sizePerRow);
          
-         uint8_t * plan2 = CVPixelBufferGetBaseAddressOfPlane(pixel_buffer,1);
+         void * plan2 = CVPixelBufferGetBaseAddressOfPlane(pixel_buffer,1);
          size_t  plan2_height = CVPixelBufferGetHeightOfPlane(pixel_buffer,1);
          size_t  plan2_sizePerRow = CVPixelBufferGetBytesPerRowOfPlane(pixel_buffer,1);
          
@@ -99,8 +99,8 @@
          
          CVPixelBufferLockBaseAddress(pixelBuffer, 0);
          
-         int width = CVPixelBufferGetWidth(pixelBuffer);
-         int height = CVPixelBufferGetHeight(pixelBuffer);
+         int width = (int)CVPixelBufferGetWidth(pixelBuffer);
+         int height = (int)CVPixelBufferGetHeight(pixelBuffer);
          
          int half_width = (width + 1) / 2;
          int half_height = (height + 1) / 2;
@@ -109,15 +109,17 @@
          const int uv_size = half_width * half_height * 2 ;
          const size_t total_size = y_size + uv_size;
          
-         uint8_t* outputBytes = calloc(1,total_size);
+         uint8_t* outputBytes = (uint8_t*)calloc(1,total_size);
          
-         uint8_t* srcBase = CVPixelBufferGetBaseAddress(pixelBuffer);
-         
-         I420ToNV12(CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 0),
+//         uint8_t* srcBase = (uint8_t*)CVPixelBufferGetBaseAddress(pixelBuffer);
+         uint8_t* tempS = (uint8_t*)CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 0);
+         uint8_t* tempS1 = (uint8_t*) CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 1);
+         uint8_t* tempS2 = (uint8_t*)CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 2);
+         libyuv::I420ToNV12(tempS,
                     half_width * 2,
-                    CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 1),
+                    tempS1,
                     half_width,
-                    CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 2),
+                    tempS2,
                     half_width,
                     outputBytes,
                     half_width * 2,
@@ -135,13 +137,13 @@
          
          CVPixelBufferLockBaseAddress(pixel_buffer, 0);
          
-         uint8_t * plan1 = CVPixelBufferGetBaseAddressOfPlane(pixel_buffer,0);
+         void * plan1 = CVPixelBufferGetBaseAddressOfPlane(pixel_buffer,0);
          size_t  plan1_height = CVPixelBufferGetHeightOfPlane(pixel_buffer,0);
          size_t  plan1_sizePerRow = CVPixelBufferGetBytesPerRowOfPlane(pixel_buffer,0);
          
          memcpy(plan1, outputBytes, plan1_height * plan1_sizePerRow);
          
-         uint8_t * plan2 = CVPixelBufferGetBaseAddressOfPlane(pixel_buffer,1);
+         void * plan2 = CVPixelBufferGetBaseAddressOfPlane(pixel_buffer,1);
          size_t  plan2_height = CVPixelBufferGetHeightOfPlane(pixel_buffer,1);
          size_t  plan2_sizePerRow = CVPixelBufferGetBytesPerRowOfPlane(pixel_buffer,1);
          
