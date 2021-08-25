@@ -7,7 +7,11 @@ typedef NS_ENUM(NSUInteger, GPUImageFillModeType) {
     kGPUImageFillModePreserveAspectRatioAndFill     // Maintains the aspect ratio of the source image, zooming in on its center to fill the view
 };
 
+@protocol GPUImageViewDelegate <NSObject>
 
+- (void)imageBufferRefOutputCompletedWithPixelBufferRef:(CVPixelBufferRef)pixelBufferRef;
+
+@end
 
 /**
  UIView subclass to use as an endpoint for displaying GPUImage outputs
@@ -16,6 +20,7 @@ typedef NS_ENUM(NSUInteger, GPUImageFillModeType) {
 {
     GPUImageRotationMode inputRotation;
 }
+@property(nonatomic, assign) id<GPUImageViewDelegate> delegate;
 
 /** The fill mode dictates how images are fit in the view, with the default being kGPUImageFillModePreserveAspectRatio
  */

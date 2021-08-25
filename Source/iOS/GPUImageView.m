@@ -388,6 +388,10 @@
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         
         [self presentFramebuffer];
+        CVPixelBufferRef bufferRef = [inputFramebufferForDisplay pixelBuffer];
+        if (_delegate && [_delegate respondsToSelector:@selector(imageBufferRefOutputCompletedWithPixelBufferRef:)]) {
+            [_delegate imageBufferRefOutputCompletedWithPixelBufferRef:bufferRef];
+        }
         [inputFramebufferForDisplay unlock];
         inputFramebufferForDisplay = nil;
     });

@@ -35,11 +35,13 @@
     if (firstInputFramebuffer) {
         CVPixelBufferRef bufferRef = [firstInputFramebuffer pixelBuffer];
         if (!bufferRef) {
+            [firstInputFramebuffer unlock];
             return;
         }
         if (_delegate && [_delegate respondsToSelector:@selector(imageBufferRefOutputCompletedWithPixelBufferRef:)]) {
             [_delegate imageBufferRefOutputCompletedWithPixelBufferRef:bufferRef];
         }
+        [firstInputFramebuffer unlock];
     }
 }
 
