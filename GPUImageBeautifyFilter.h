@@ -6,7 +6,10 @@
 //  Copyright © 2016年 ClaudeLi. All rights reserved.
 //
 
-#import <GPUImage/GPUImage.h>
+#import "GPUImageBilateralFilter.h"
+#import "GPUImageFilterGroup.h"
+#import "GPUImageCannyEdgeDetectionFilter.h"
+#import "GPUImageHSBFilter.h"
 
 @class GPUImageCombinationFilter;
 @interface GPUImageBeautifyFilter : GPUImageFilterGroup{

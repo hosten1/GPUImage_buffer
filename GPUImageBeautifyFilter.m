@@ -7,6 +7,7 @@
 //
 
 #import "GPUImageBeautifyFilter.h"
+#import "GPUImageThreeInputFilter.h"
 
 // Internal CombinationFilter(It should not be used outside)
 @interface GPUImageCombinationFilter : GPUImageThreeInputFilter
