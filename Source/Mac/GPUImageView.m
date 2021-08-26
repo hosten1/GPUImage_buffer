@@ -170,10 +170,13 @@
     
     _sizeInPixels = viewSize;
 
-    [self recalculateViewGeometry];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self recalculateViewGeometry];
+    });
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self newFrameReadyAtTime:kCMTimeInvalid atIndex:0];
     });
+    [super reshape];
 }
 
 #pragma mark -
@@ -393,7 +396,9 @@
         if (!CGSizeEqualToSize(inputImageSize, rotatedSize))
         {
             inputImageSize = rotatedSize;
-            [self recalculateViewGeometry];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self recalculateViewGeometry];
+            });
         }
     });
 }
@@ -452,7 +457,10 @@
 - (void)setFillMode:(GPUImageFillModeType)newValue;
 {
     _fillMode = newValue;
-    [self recalculateViewGeometry];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self recalculateViewGeometry];
+    });
+   
 }
 
 @end
