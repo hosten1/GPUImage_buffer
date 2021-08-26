@@ -23,6 +23,7 @@
 #import "GPUImageBufferRefOutput.h"
 // Filters
 #import "GPUImageBeautifyFilter.h"
+#import "TencentBeautyFilter.h"
 #import "GPUImageFilter.h"
 #import "GPUImageTwoInputFilter.h"
 #import "GPUImagePixellateFilter.h"
