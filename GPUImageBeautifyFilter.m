@@ -1,22 +1,13 @@
 //
 //  GPUImageBeautifyFilter.m
-//  BeautifyFaceDemo
+//  BeautifyFace
 //
-//  Created by guikz on 16/4/28.
-//  Copyright © 2016年 guikz. All rights reserved.
+//  Created by ClaudeLi on 16/5/19.
+//  Copyright © 2016年 ClaudeLi. All rights reserved.
 //
-
-/*
- * GPUImage 美颜
- * 使用了下面的链接，感谢分享
- * https://github.com/Guikunzhi/BeautifyFaceDemo
- */
 
 #import "GPUImageBeautifyFilter.h"
-#import "GPUImageBilateralFilter.h"
-#import "GPUImageCannyEdgeDetectionFilter.h"
-#import "GPUImageHSBFilter.h"
-#import "GPUImageThreeInputFilter.h"
+
 // Internal CombinationFilter(It should not be used outside)
 @interface GPUImageCombinationFilter : GPUImageThreeInputFilter
 {
@@ -77,14 +68,6 @@ NSString *const kGPUImageBeautifyFragmentShaderString = SHADER_STRING
 
 @end
 
-
-@interface GPUImageBeautifyFilter(){
-    GPUImageBilateralFilter *bilateralFilter;
-    GPUImageCannyEdgeDetectionFilter *cannyEdgeFilter;
-    GPUImageCombinationFilter *combinationFilter;
-    GPUImageHSBFilter *hsbFilter;
-}
-@end
 @implementation GPUImageBeautifyFilter
 
 - (id)init;
@@ -96,7 +79,7 @@ NSString *const kGPUImageBeautifyFragmentShaderString = SHADER_STRING
     
     // First pass: face smoothing filter
     bilateralFilter = [[GPUImageBilateralFilter alloc] init];
-    bilateralFilter.distanceNormalizationFactor = 4.0;
+    bilateralFilter.distanceNormalizationFactor = 2.0;
     [self addFilter:bilateralFilter];
     
     // Second pass: edge detection
@@ -109,8 +92,8 @@ NSString *const kGPUImageBeautifyFragmentShaderString = SHADER_STRING
     
     // Adjust HSB
     hsbFilter = [[GPUImageHSBFilter alloc] init];
-    [hsbFilter adjustBrightness:1.1];
-    [hsbFilter adjustSaturation:1.1];
+    [hsbFilter adjustBrightness:1.05];
+    [hsbFilter adjustSaturation:1.05]; 
     
     [bilateralFilter addTarget:combinationFilter];
     [cannyEdgeFilter addTarget:combinationFilter];
@@ -149,6 +132,15 @@ NSString *const kGPUImageBeautifyFragmentShaderString = SHADER_STRING
         }
         [currentFilter setInputFramebuffer:newInputFramebuffer atIndex:textureIndex];
     }
+}
+
+- (void)setDistanceNormalizationFactor:(CGFloat)value{
+    bilateralFilter.distanceNormalizationFactor = value;
+}
+
+- (void)setBrightness:(CGFloat)brightness saturation:(CGFloat)saturation{
+    [hsbFilter adjustBrightness:brightness];
+    [hsbFilter adjustSaturation:saturation];
 }
 
 @end

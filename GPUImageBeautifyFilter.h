@@ -1,23 +1,34 @@
 //
 //  GPUImageBeautifyFilter.h
-//  BeautifyFaceDemo
+//  BeautifyFace
 //
-//  Created by guikz on 16/4/28.
-//  Copyright © 2016年 guikz. All rights reserved.
+//  Created by ClaudeLi on 16/5/19.
+//  Copyright © 2016年 ClaudeLi. All rights reserved.
 //
 
-/*
- * GPUImage 美颜
- * 使用了下面的链接，感谢分享
- * https://github.com/Guikunzhi/BeautifyFaceDemo
+#import <GPUImage/GPUImage.h>
+
+@class GPUImageCombinationFilter;
+@interface GPUImageBeautifyFilter : GPUImageFilterGroup{
+    GPUImageBilateralFilter          *bilateralFilter;
+    GPUImageCannyEdgeDetectionFilter *cannyEdgeFilter;
+    GPUImageCombinationFilter        *combinationFilter;
+    GPUImageHSBFilter                *hsbFilter;
+}
+
+/**
+ *  A normalization factor for the distance between central color and sample color
+ *
+ *  @param value default 2.0
  */
+- (void)setDistanceNormalizationFactor:(CGFloat)value;
 
-#import "GPUImageFilterGroup.h"
-//#import "GPUImageBilateralFilter.h"
-//#import "GPUImageCannyEdgeDetectionFilter.h"
-//#import "GPUImageCombinationFilter.h"
-//#import "GPUImageHSBFilter.h"
-
-@interface GPUImageBeautifyFilter : GPUImageFilterGroup
+/**
+ *  Set brightness and saturation
+ *
+ *  @param brightness [0.0, 2.0], default 1.05
+ *  @param saturation [0.0, 2.0], default 1.05
+ */
+- (void)setBrightness:(CGFloat)brightness saturation:(CGFloat)saturation;
 
 @end
