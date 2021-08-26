@@ -22,6 +22,9 @@
     GLfloat backgroundColorRed, backgroundColorGreen, backgroundColorBlue, backgroundColorAlpha;
 
     CGSize boundsSizeAtFrameBufferEpoch;
+// lym : Fix main thread
+    CGRect viewRect;
+    CALayer *viewLayer;
 }
 
 @property (assign, nonatomic) NSUInteger aspectRatio;
@@ -85,7 +88,7 @@
         self.contentScaleFactor = [[UIScreen mainScreen] scale];
     }
 
-    inputRotation = kGPUImageRotateRightFlipHorizontal;
+    inputRotation = kGPUImageNoRotation;
     self.opaque = YES;
     self.hidden = NO;
     CAEAGLLayer *eaglLayer = (CAEAGLLayer *)self.layer;
@@ -132,7 +135,8 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
+    viewRect = self.bounds;
+    viewLayer = self.layer;
     // The frame buffer needs to be trashed and re-created when the view size changes.
     if (!CGSizeEqualToSize(self.bounds.size, boundsSizeAtFrameBufferEpoch) &&
         !CGSizeEqualToSize(self.bounds.size, CGSizeZero)) {
@@ -141,9 +145,7 @@
             [self createDisplayFramebuffer];
         });
     } else if (!CGSizeEqualToSize(self.bounds.size, CGSizeZero)) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self recalculateViewGeometry];
-        });
+        [self recalculateViewGeometry];
     }
 }
 
@@ -167,7 +169,7 @@
     glGenRenderbuffers(1, &displayRenderbuffer);
     glBindRenderbuffer(GL_RENDERBUFFER, displayRenderbuffer);
 	
-    [[[GPUImageContext sharedImageProcessingContext] context] renderbufferStorage:GL_RENDERBUFFER fromDrawable:(CAEAGLLayer*)self.layer];
+    [[[GPUImageContext sharedImageProcessingContext] context] renderbufferStorage:GL_RENDERBUFFER fromDrawable:(CAEAGLLayer*)viewLayer];
 	
     GLint backingWidth, backingHeight;
 
@@ -189,11 +191,9 @@
 	
     __unused GLuint framebufferCreationStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
     NSAssert(framebufferCreationStatus == GL_FRAMEBUFFER_COMPLETE, @"Failure with display framebuffer generation for display of size: %f, %f", self.bounds.size.width, self.bounds.size.height);
-    boundsSizeAtFrameBufferEpoch = self.bounds.size;
+    boundsSizeAtFrameBufferEpoch = viewRect.size;
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self recalculateViewGeometry];
-    });
+    [self recalculateViewGeometry];
 }
 
 - (void)destroyDisplayFramebuffer;
@@ -234,17 +234,16 @@
 #pragma mark -
 #pragma mark Handling fill mode
 
-- (void)recalculateViewGeometry;
-{
+- (void)recalculateViewGeometry{
     runSynchronouslyOnVideoProcessingQueue(^{
         CGFloat heightScaling, widthScaling;
         
-        CGSize currentViewSize = self.bounds.size;
+        CGSize currentViewSize = viewRect.size;
         
         //    CGFloat imageAspectRatio = inputImageSize.width / inputImageSize.height;
         //    CGFloat viewAspectRatio = currentViewSize.width / currentViewSize.height;
         
-        CGRect insetRect = AVMakeRectWithAspectRatioInsideRect(inputImageSize, self.bounds);
+        CGRect insetRect = AVMakeRectWithAspectRatioInsideRect(inputImageSize, viewRect);
         
         switch(_fillMode)
         {
@@ -275,13 +274,6 @@
         imageVertices[6] = widthScaling;
         imageVertices[7] = heightScaling;
     });
-    
-//    static const GLfloat imageVertices[] = {
-//        -1.0f, -1.0f,
-//        1.0f, -1.0f,
-//        -1.0f,  1.0f,
-//        1.0f,  1.0f,
-//    };
 }
 
 - (void)setBackgroundColorRed:(GLfloat)redComponent green:(GLfloat)greenComponent blue:(GLfloat)blueComponent alpha:(GLfloat)alphaComponent;
@@ -431,9 +423,7 @@
         if (!CGSizeEqualToSize(inputImageSize, rotatedSize))
         {
             inputImageSize = rotatedSize;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self recalculateViewGeometry];
-            });
+            [self recalculateViewGeometry];
         }
     });
 }
@@ -488,9 +478,7 @@
 - (void)setFillMode:(GPUImageFillModeType)newValue;
 {
     _fillMode = newValue;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self recalculateViewGeometry];
-    });
+    [self recalculateViewGeometry];
 }
 
 @end
